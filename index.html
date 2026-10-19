@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chúc mừng 20/10 em yêu!</title>
+
+  <!-- Font chữ (cần mạng; nếu offline trình duyệt sẽ dùng font dự phòng) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================== BẢNG MÀU ===================== */
+    :root {
+      --pink-50:  #fff6f9;
+      --pink-100: #ffe6ee;
+      --pink-200: #ffcadb;
+      --pink-300: #ffa9c3;
+      --pink-400: #f786aa;
+      --rose:     #e35d8a;
+      --lavender: #f1e2ff;
+      --text:     #7b3f58;
+      --text-soft:#a46a82;
+      --white:    #ffffff;
+      --shadow:   0 18px 40px -12px rgba(227, 93, 138, .35);
+      --font-title: "Dancing Script", "Segoe Script", cursive;
+      --font-body:  "Quicksand", "Segoe UI", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 202, 219, .7), transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(241, 226, 255, .9), transparent 45%),
+        linear-gradient(160deg, var(--pink-50), var(--pink-100) 50%, var(--lavender));
+      background-attachment: fixed;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Khi chưa mở thiệp thì khóa cuộn */
+    body:not(.opened) { overflow: hidden; height: 100vh; }
+
+    /* ===================== MÀN HÌNH MỞ THIỆP ===================== */
+    .cover {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      background: linear-gradient(160deg, var(--pink-100), var(--pink-200));
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    .cover.hide { opacity: 0; visibility: hidden; }
+
+    .cover-envelope {
+      font-size: clamp(72px, 20vw, 120px);
+      line-height: 1;
+      animation: pulse 1.6s ease-in-out infinite;
+      filter: drop-shadow(0 12px 18px rgba(227, 93, 138, .35));
+    }
+    .cover-text {
+      font-family: var(--font-title);
+      font-size: clamp(26px, 6vw, 38px);
+      color: var(--rose);
+    }
+    .cover-hint {
+      font-size: 14px;
+      color: var(--text-soft);
+      letter-spacing: .5px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) rotate(-3deg); }
+      50%      { transform: scale(1.08) rotate(3deg); }
+    }
+
+    /* ===================== BỐ CỤC CHÍNH ===================== */
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding: 48px 16px 96px;
+      text-align: center;
+    }
+
+    /* Hiệu ứng xuất hiện dần — chỉ chạy sau khi mở thiệp */
+    .reveal { opacity: 0; }
+    body.opened .reveal {
+      opacity: 1;
+      animation: fadeUp 1s cubic-bezier(.2, .7, .3, 1) var(--d, 0s) backwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===================== TIÊU ĐỀ ===================== */
+    .date-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .65);
+      border: 1px solid var(--pink-200);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--rose);
+    }
+
+    .title {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: clamp(40px, 9vw, 76px);
+      line-height: 1.15;
+      background: linear-gradient(90deg, var(--rose), var(--pink-400), #c77dff, var(--pink-400), var(--rose));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite;
+      filter: drop-shadow(0 4px 10px rgba(227, 93, 138, .2));
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: clamp(15px, 3.6vw, 18px);
+      color: var(--text-soft);
+    }
+
+    /* ===================== ALBUM / COLLAGE ẢNH ===================== */
+    .collage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9.6;
+      margin: 40px auto 24px;
+    }
+
+    .photo-wrap {
+      position: absolute;
+      width: 30%;
+    }
+    .photo-wrap:nth-child(1) { left: 3%;  top: 10%; z-index: 1; --r: -9deg; }
+    .photo-wrap:nth-child(2) { left: 34%; top: 0;   z-index: 3; --r: 3deg; width: 32%; }
+    .photo-wrap:nth-child(3) { right: 3%; top: 14%; z-index: 2; --r: 8deg; }
+
+    /* Khung ảnh kiểu polaroid, viền mềm */
+    .photo {
+      position: relative;
+      display: block;
+      padding: 12px 12px 48px;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transform: rotate(var(--r, 0deg));
+      transition: transform .5s cubic-bezier(.2, .8, .3, 1.2), box-shadow .5s ease;
+      cursor: zoom-in;
+      outline: none;
+    }
+
+    /* Miếng băng dính trang trí phía trên ảnh */
+    .photo::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      width: 90px;
+      height: 26px;
+      transform: translateX(-50%) rotate(-4deg);
+      background: rgba(255, 169, 195, .55);
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 10px;
+      background: var(--pink-100);
+    }
+
+    .photo figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      font-family: var(--font-title);
+      font-size: clamp(16px, 2.2vw, 22px);
+      color: var(--rose);
+    }
+
+    /* Hover: ảnh thẳng lại, phóng to và nổi lên trên */
+    @media (hover: hover) {
+      .photo-wrap:hover { z-index: 5; }
+      .photo-wrap:hover .photo {
+        transform: rotate(0deg) scale(1.07) translateY(-8px);
+        box-shadow: 0 28px 50px -12px rgba(227, 93, 138, .5);
+      }
+    }
+    .photo:focus-visible {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 0 0 0 4px var(--pink-300), var(--shadow);
+    }
+
+    /* ===================== LỜI CHÚC ===================== */
+    .wish {
+      position: relative;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 32px 28px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .6);
+      border: 1px solid rgba(255, 255, 255, .8);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform .4s ease;
+    }
+    @media (hover: hover) {
+      .wish:hover { transform: translateY(-4px); }
+    }
+
+    .wish-greeting {
+      font-family: var(--font-title);
+      font-size: clamp(24px, 5vw, 30px);
+      color: var(--rose);
+      margin-bottom: 12px;
+    }
+    .wish p {
+      font-size: clamp(15px, 3.8vw, 17px);
+      line-height: 1.85;
+    }
+    .wish-sign {
+      margin-top: 18px;
+      font-family: var(--font-title);
+      font-size: clamp(22px, 5vw, 28px);
+      color: var(--rose);
+      text-align: right;
+    }
+
+    .footer {
+      margin-top: 36px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+    .footer .beat {
+      display: inline-block;
+      color: var(--rose);
+      animation: beat 1.2s ease-in-out infinite;
+    }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      30%      { transform: scale(1.3); }
+    }
+
+    /* ===================== NÚT NHẠC ===================== */
+    .music-btn {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--pink-300), var(--rose));
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 24px -6px rgba(227, 93, 138, .6);
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .music-btn:hover  { transform: translateY(-2px) scale(1.04); }
+    .music-btn:active { transform: scale(.96); }
+    .music-btn:focus-visible { outline: 3px solid var(--pink-200); outline-offset: 3px; }
+    .music-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .music-btn.playing svg { animation: spin 3s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Thông báo nhỏ */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 84px;
+      z-index: 45;
+      max-width: calc(100% - 32px);
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: rgba(123, 63, 88, .9);
+      color: var(--white);
+      font-size: 14px;
+      text-align: center;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ===================== XEM ẢNH PHÓNG TO ===================== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(123, 63, 88, .55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s ease, visibility .35s ease;
+      cursor: zoom-out;
+    }
+    .lightbox.show { opacity: 1; visibility: visible; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 85vh;
+      border: 10px solid var(--white);
+      border-radius: 16px;
+      box-shadow: 0 30px 60px -10px rgba(0, 0, 0, .35);
+      transform: scale(.9);
+      transition: transform .35s ease;
+    }
+    .lightbox.show img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--rose);
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    /* ===================== TIM BAY & HOA RƠI ===================== */
+    .fx {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      color: var(--c, var(--pink-400));
+      font-size: var(--s, 20px);
+      opacity: 0;
+      animation: floatUp var(--t, 9s) ease-in forwards;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0;  transform: translate(0, 0) rotate(0deg); }
+      10%  { opacity: .9; }
+      50%  { transform: translate(var(--x, 30px), -55vh) rotate(15deg); }
+      100% { opacity: 0;  transform: translate(calc(var(--x, 30px) * -1), -110vh) rotate(-15deg); }
+    }
+
+    .petal {
+      position: absolute;
+      top: -30px;
+      width: var(--s, 14px);
+      height: calc(var(--s, 14px) * 1.25);
+      background: radial-gradient(circle at 30% 30%, #fff, var(--c, var(--pink-300)) 70%);
+      border-radius: 150% 0 150% 0;
+      opacity: .85;
+      animation: fall var(--t, 10s) linear forwards;
+    }
+    @keyframes fall {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      25%  { transform: translate(var(--x, 40px), 27vh) rotate(90deg); }
+      50%  { transform: translate(calc(var(--x, 40px) * -0.5), 55vh) rotate(200deg); }
+      75%  { transform: translate(var(--x, 40px), 82vh) rotate(290deg); }
+      100% { transform: translate(0, 110vh) rotate(380deg); opacity: .2; }
+    }
+
+    /* Tim nổ ra khi chạm màn hình */
+    .burst {
+      position: fixed;
+      z-index: 30;
+      color: var(--rose);
+      font-size: 16px;
+      pointer-events: none;
+      animation: burst .9s ease-out forwards;
+    }
+    @keyframes burst {
+      from { opacity: 1; transform: translate(-50%, -50%) scale(.6); }
+      to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2); }
+    }
+
+    /* ===================== ĐIỆN THOẠI ===================== */
+    @media (max-width: 640px) {
+      .card { padding-top: 36px; }
+
+      /* Ảnh xếp dọc, lệch trái/phải và chồng nhẹ lên nhau */
+      .collage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        aspect-ratio: auto;
+        margin-top: 32px;
+      }
+      .photo-wrap,
+      .photo-wrap:nth-child(2) {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        width: min(78%, 320px);
+      }
+      .photo-wrap:nth-child(1) { align-self: flex-start; margin-left: 4%; }
+      .photo-wrap:nth-child(2) { align-self: flex-end; margin-right: 4%; margin-top: -36px; --r: 5deg; }
+      .photo-wrap:nth-child(3) { align-self: center; margin-top: -30px; z-index: 4; --r: -4deg; }
+      .photo figcaption { font-size: 20px; }
+
+      .wish { padding: 26px 20px; }
+
+      .music-btn { padding: 14px; }
+      .music-btn .label { display: none; }
+    }
+
+    /* Tôn trọng người dùng bật "giảm chuyển động" */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== MÀN HÌNH MỞ THIỆP ===================== -->
+  <div class="cover" id="cover" role="button" tabindex="0" aria-label="Mở thiệp">
+    <div class="cover-envelope" aria-hidden="true">💌</div>
+    <div class="cover-text">Anh có thư cho em nè…</div>
+    <div class="cover-hint">Chạm để mở thiệp</div>
+  </div>
+
+  <!-- Lớp hiệu ứng tim bay & hoa rơi -->
+  <div class="fx" id="fx" aria-hidden="true"></div>
+
+  <main class="card">
+    <header>
+      <!-- [THAY] Đổi năm nếu cần -->
+      <span class="date-badge reveal" style="--d: .1s">20 · 10 · 2026</span>
+      <h1 class="title reveal" style="--d: .25s">Chúc mừng 20/10 em yêu!</h1>
+      <p class="subtitle reveal" style="--d: .45s">Gửi người con gái anh thương nhất trên đời</p>
+    </header>
+
+    <!-- ===================== ALBUM 3 ẢNH ===================== -->
+    <section class="collage" aria-label="Album ảnh của em">
+
+      <!-- [THAY ẢNH 1] Sửa src="..." thành tên file ảnh của bạn (cùng thư mục với file HTML) -->
+      <div class="photo-wrap reveal" style="--d: .7s">
+        <figure class="photo" tabindex="0">
+          <img src="1792294184975_36138600871854503_6975122130727382507_89493e097e64d6a2a304175798661cbe.jpg"
+               alt="Ảnh của em 1" loading="lazy" />
+          <!-- [THAY] Chú thích dưới ảnh 1 -->
+          <figcaption>Nụ cười của em</figcaption>
+        </figure>
+      </div>
+
+      <!-- [THAY ẢNH 2] Ảnh ở giữa, nổi bật nhất -->
+      <div class="photo-wrap reveal" style="--d: .9s">
+        <figure class="photo" tabindex="0">
+          <img src="1792294185003_36138600871854503_6975122130727382507_6ea89090678063e87032bd752fe020e8.jpg"
+               alt="Ảnh của em 2" loading="lazy" />
+          <!-- [THAY] Chú thích dưới ảnh 2 -->
+          <figcaption>Cô gái của anh</figcaption>
+        </figure>
+      </div>
+
+      <!-- [THAY ẢNH 3] -->
+      <div class="photo-wrap reveal" style="--d: 1.1s">
+        <figure class="photo" tabindex="0">
+          <img src="1792294185027_36138600871854503_6975122130727382507_78056c6abda4652ce5584a850f61792b.jpg"
+               alt="Ảnh của em 3" loading="lazy" />
+          <!-- [THAY] Chú thích dưới ảnh 3 -->
+          <figcaption>Mãi bên nhau nhé</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== LỜI CHÚC ===================== -->
+    <!-- [THAY] Sửa lời chúc tùy ý -->
+    <section class="wish reveal" style="--d: 1.35s">
+      <div class="wish-greeting">Gửi em yêu,</div>
+      <p>
+        Nhân ngày Phụ nữ Việt Nam 20/10, anh chúc em luôn xinh đẹp, rạng rỡ
+        và thật nhiều niềm vui. Cảm ơn em đã đến và làm mỗi ngày của anh trở nên
+        ngọt ngào hơn. Anh sẽ luôn ở bên, thương em, chiều em và cùng em đi qua
+        mọi điều. Yêu em nhiều lắm! 💕
+      </p>
+      <!-- [THAY] Chữ ký -->
+      <div class="wish-sign">Anh của em ♥</div>
+    </section>
+
+    <footer class="footer reveal" style="--d: 1.6s">
+      Chạm vào ảnh để xem lớn hơn · Made with <span class="beat">♥</span> for you
+    </footer>
+  </main>
+
+  <!-- ===================== NÚT BẬT/TẮT NHẠC ===================== -->
+  <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Bật nhạc">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" />
+    </svg>
+    <span class="label">Bật nhạc</span>
+  </button>
+
+  <!-- [THAY NHẠC] Đặt file nhạc tên "nhac.mp3" cùng thư mục, hoặc sửa src thành tên file của bạn -->
+  <audio id="bgMusic" src="nhac.mp3" loop preload="auto"></audio>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Khung xem ảnh phóng to -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Đóng">×</button>
+    <img src="" alt="" />
+  </div>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isSmallScreen = window.matchMedia('(max-width: 640px)').matches;
+
+      /* ===================== MỞ THIỆP ===================== */
+      const cover = document.getElementById('cover');
+
+      function openCard() {
+        if (body.classList.contains('opened')) return;
+        body.classList.add('opened');
+        cover.classList.add('hide');
+        playMusic(true); // Lần chạm này được tính là thao tác người dùng → được phép phát nhạc
+        startEffects();
+      }
+
+      cover.addEventListener('click', openCard);
+      cover.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCard(); }
+      });
+
+      /* ===================== NHẠC NỀN ===================== */
+      const music = document.getElementById('bgMusic');
+      const musicBtn = document.getElementById('musicBtn');
+      const musicLabel = musicBtn.querySelector('.label');
+      music.volume = 0.6;
+
+      function setMusicUI(playing) {
+        musicBtn.classList.toggle('playing', playing);
+        musicBtn.setAttribute('aria-pressed', String(playing));
+        musicLabel.textContent = playing ? 'Tắt nhạc' : 'Bật nhạc';
+        musicBtn.setAttribute('aria-label', playing ? 'Tắt nhạc' : 'Bật nhạc');
+      }
+
+      // silent = true: không báo lỗi (dùng khi tự phát lúc mở thiệp)
+      async function playMusic(silent) {
+        try {
+          await music.play();
+          setMusicUI(true);
+        } catch (err) {
+          setMusicUI(false);
+          if (!silent) showToast('Chưa phát được nhạc — hãy thêm file "nhac.mp3" vào cùng thư mục nhé 🎵');
+        }
+      }
+
+      musicBtn.addEventListener('click', () => {
+        if (music.paused) {
+          playMusic(false);
+        } else {
+          music.pause();
+          setMusicUI(false);
+        }
+      });
+
+      /* ===================== THÔNG BÁO ===================== */
+      const toast = document.getElementById('toast');
+      let toastTimer;
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+      }
+
+      /* ===================== XEM ẢNH PHÓNG TO ===================== */
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = lightbox.querySelector('img');
+
+      function openLightbox(img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+      function closeLightbox() {
+        lightbox.classList.remove('show');
+        lightbox.setAttribute('aria-hidden', 'true');
+      }
+
+      document.querySelectorAll('.photo').forEach((photo) => {
+        const img = photo.querySelector('img');
+        photo.addEventListener('click', () => openLightbox(img));
+        photo.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(img); }
+        });
+      });
+      lightbox.addEventListener('click', closeLightbox);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+      /* ===================== TIM BAY & HOA RƠI ===================== */
+      const fx = document.getElementById('fx');
+      const heartColors = ['#f786aa', '#ffa9c3', '#e35d8a', '#ff8fb1', '#d77dff'];
+      const petalColors = ['#ffc1d3', '#ffa9c3', '#ffd6e3', '#f9b8d0'];
+      const MAX_PARTICLES = isSmallScreen ? 18 : 35; // giới hạn để mượt trên điện thoại
+
+      const rand = (min, max) => Math.random() * (max - min) + min;
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+      function addParticle(el) {
+        if (fx.childElementCount >= MAX_PARTICLES) return;
+        el.addEventListener('animationend', () => el.remove());
+        fx.appendChild(el);
+      }
+
+      function spawnHeart() {
+        const heart = document.createElement('span');
+        heart.className = 'heart';
+        heart.textContent = '♥';
+        heart.style.left = rand(0, 100) + 'vw';
+        heart.style.setProperty('--s', rand(14, 30) + 'px');
+        heart.style.setProperty('--t', rand(7, 12) + 's');
+        heart.style.setProperty('--x', rand(-60, 60) + 'px');
+        heart.style.setProperty('--c', pick(heartColors));
+        addParticle(heart);
+      }
+
+      function spawnPetal() {
+        const petal = document.createElement('span');
+        petal.className = 'petal';
+        petal.style.left = rand(0, 100) + 'vw';
+        petal.style.setProperty('--s', rand(10, 18) + 'px');
+        petal.style.setProperty('--t', rand(8, 14) + 's');
+        petal.style.setProperty('--x', rand(-80, 80) + 'px');
+        petal.style.setProperty('--c', pick(petalColors));
+        addParticle(petal);
+      }
+
+      function startEffects() {
+        if (reduceMotion) return;
+        setInterval(() => { if (!document.hidden) spawnHeart(); }, isSmallScreen ? 1100 : 700);
+        setInterval(() => { if (!document.hidden) spawnPetal(); }, isSmallScreen ? 900 : 550);
+      }
+
+      /* Chạm/bấm vào màn hình → tim nhỏ bung ra */
+      document.addEventListener('pointerdown', (e) => {
+        if (reduceMotion || !body.classList.contains('opened')) return;
+        if (e.target.closest('button, .lightbox')) return;
+        const count = 6;
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i) / count + rand(-0.3, 0.3);
+          const distance = rand(30, 60);
+          const b = document.createElement('span');
+          b.className = 'burst';
+          b.textContent = '♥';
+          b.style.left = e.clientX + 'px';
+          b.style.top = e.clientY + 'px';
+          b.style.color = pick(heartColors);
+          b.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+          b.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
+          b.addEventListener('animationend', () => b.remove());
+          body.appendChild(b);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
